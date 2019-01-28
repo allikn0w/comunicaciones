@@ -77,10 +77,14 @@ ALGORITMOS DE ENRUTAMIENTO
 · Principio de optimización.
 · Algoritmo de la ruta más corta.
 · Inundación (Flooding).
-· Enrutamiento basado en distancia de vectores.
-· Enrutamiento basado en enlaces de estado.
+· Enrutamiento por vector de salida.
+· Enrutamiento por estado del enlace.
 · Enrutamiento en redes ad hoc.
-
+· Enrutamiento por difusión.
+· Enrutamiento multidifusión.
+· Enrutamiento anycast.
+· Enrutamiento para hosts móviles.
+· Enrutamiento en redes ad hoc (de nuevo).
 
 
 
