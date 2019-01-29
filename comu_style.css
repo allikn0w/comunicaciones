@@ -1,0 +1,39 @@
+body{
+  background-color:#eee;
+}
+
+img.terry{
+  float:right;
+  position:relative;
+  width:300px;
+  height:150px;
+}
+div.border{
+  margin:auto;
+  width:80%;
+  border: 6px solid blue;
+  padding: 20px;
+}
+div.ubuntu_letra{
+  font-family:Ubuntu;
+  font-size:15px;
+}
+
+
+p.green {
+  display:inline;
+  color: green;
+}
+
+p.red {
+  display:inline;
+  color: red;
+}
+
+p.blue {
+  color: blue;
+}
+
+p.grande {
+  text-transform: uppercase;
+}

@@ -1,0 +1,349 @@
+<html>
+<head>
+  <title>CAPA DE RED</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <link rel="stylesheet" type="text/css" href="comu_style.css">
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Ubuntu" />
+  <img class="terry" src="terry.jpg"/>
+</head>
+
+<body>
+<div class="ubuntu_letra border">
+<pre>
+<p class="blue grande">Problemas de diseño de la capa de red.</p>
+· Conmutación de paquetes de almacenamiento y reenvío.
+· Servicios ofrecidos a la capa de transporte.
+· Implementación de servicios sin conexión.
+· Implementacion dee servicios orientados a la conexión.
+· Comparación entre las redes de circuitos virtuales y datagramas.
+
+<p class="blue grande">Conmutación de paquetes de almacenamiento y reenvío.</p>
+Un host que desea enviar un paquete lo transmite al enrutador más cercano, ya
+sea en su propia LAN o a través de un enlace punto a punto que va al ISP. El
+paquete se almacena ahí hasta que haya llegado por completo y el enlace haya
+terminado su procesamiento mediante la comprobación de la suma de verificación
+Después se reenvía al siguiente enrutador de la ruta hasta que llega al host
+destino, en donde se entrega. Este mecanismo se denomina conmutación de 
+almacenamiento y envío.
+
+
+<p class="blue grande">Servicios proporcionados a la capa de transporte</p>
+· Los servicios deben ser independientes de la tecnología del enrutador.
+· La capa de transporte debe estar aislada de la cantidad, tipo y topología
+de los enrutadores presentes.
+· Las direcciones de red disponibles para la capa de transporte deben usar
+ un plan de numeración iguales(uniforme), incluso a través de las redes LAN y WAN.
+
+<p class="blue grande">Implementación del servicio sin conexión</p>
+En este contexto, por lo general los paquetes se conocen como datagramas
+(en analogía con los telegramas) y la red se conoce como red de datagramas.
+
+<p class="green">Ver figura 5.2</p>
+En A, los paquetes 1,2 y 3 se almancenan unos momentos, después de haber 
+llegado por el enlace entrante y de haber comprobado sus sumas de verificación.
+Después cada paquete se reenvía de acuerdo con la tabla de A, por el enlace
+de salida a C dentro de una nueva trama. Después, el paquete 1 se reenvía a E
+y después a F. Cuando llega a F, se envía dentro de una trama a H2 a  través 
+de la LAN. Los paquetes 2 y 3 siguen la misma ruta.
+Pero con el 4to paquete, cuando llega a A se envía al enrutador B, aun cuando
+también está  destinado a F. Por alguna razón, A decidió enviar el paquete 4
+por una ruta diferente a la de los primeros tres paquetes, ya sea por una 
+congestión de tráfico en alguna parte de la ruta ACE y actualizó su tabla 
+de enrutamiento. A este algoritmo se lo conoce como algoritmo de enrutamiento.
+
+<p class="blue grande">Implementación del servicio orientado a la conexión</p>
+En este contexto la conexión se conoce como VC (circuito virtual), en analogía
+con los circuitos físicos establecidos por el sistema telefónico, y la red se
+denomina red de circuitos virtuales.
+
+<p class="green">Ver figura 5-3</p>
+El host H1 ha establecido una conexión 1 con el host H2. Esta conexión se recuerda como
+la primera entrada en cada una de las tablas de enrutamiento. La primera línea de la tabla
+A indica que si un paquete con el identificador de conexión 1 viene de H1, se enviará al
+enrutador C y se le dará el identificador de conexión 1. De manera similar, la primera
+entrada en C enruta el paquete a E, también con el identificador de conexión 1.
+Ahora si H3 también desea establecer una conexión con H2. Elige el identificador de conexión
+1 (debido a que está iniciando la conexión y a que ésta es su única conexión) y le indica
+a la red que establezca el circuito virtual. Ahora aunque A sí puede saber con facilidad
+cuáles paquetes de conexión 1 provienen de H1 y cuáles proviene de H3, C no puede saberlo.
+Por esta razón, A asigna un identificador de conexión diferente al tráfico de salida para
+la sengunda conexión. Evitar confluctors de este tipo es la razón por la cual los enrutadores
+necesitan la habilidad de reemplazar identificadores de conexión en los paquetes de salida.
+A este proceso se lee conoce como CONMUTACIÓN MEDIANTE ETIQUETAS. 
+
+<p class="blue grande">MPLS (Conmutación Multiprotocolo Mediante Etiquetas)</p>
+Es un protocolo orientado a la conexión se utiliza dentro de las redes ISP en Internet, en
+donde los paquetes IP se envuelven en un encabezado MPLS que tiene un identificador de 
+conexión o etiqueta de 20 bits. El servicio MPLS se oculta de los clientes.
+
+<p class="green">Ver Figura 5-4 (comparación entre red de datagramas y circuitos virtuales)</p>
+
+<p class="blue grande">ALGORITMOS DE ENRUTAMIENTO</p>
+· Principio de optimización.
+· Algoritmo de la ruta más corta.
+· Inundación (Flooding).
+· Enrutamiento por vector de salida.
+· Enrutamiento por estado del enlace.
+· Enrutamiento en redes ad hoc.
+· Enrutamiento por difusión.
+· Enrutamiento multidifusión.
+· Enrutamiento anycast.
+· Enrutamiento para hosts móviles.
+· Enrutamiento en redes ad hoc (de nuevo).
+
+<p class="blue grande">Equilibrio vs Eficiencia</p>
+Una vez que una red principal entra en operación, es de esperar que funcione
+de manera continua durante años, sin fallas a nivel de sistema. Durante ese 
+período habrá fallas de hardware y de software de todo tipo. Los hosts, 
+enrutadores y líneas fallarán en forma repetida y la topología cambiará muchas
+veces. El algoritmo de enrutamiento debe ser capaz de manejar los cambios de 
+topología y tráfico sin necesidad de abortar todas las tareas en todos los hosts!!!
+La estabilidad también es una meta importante para el algoritmo de enrutamiento.
+Existen algoritmos de enrutamiento que nunca convergen hacia un conjunto de rutas
+fijo, sin importar el tiempo que permanezcan en operación. Debe converger con rapidez
+ya que se PUEDE INTERRUMPIR LA COMUNICACIÓN HASTA QUE EL ALGORITMO DE ENRUTAMIENTO HAYA
+LLEGADO A UN EQUILIBRIO.
+La equidad y la eficiencia parecen obvias, pero son metas contradictorias.
+
+
+<img style="width:800px" src="eficiencia.png"/>
+
+Hay suficiente tráfico entre A y A', entre B y B' y entre C y C' para saturar los enlaces
+horizontales. Con el fin de maximizar el flujo total, es necesario suspender X a X' por
+completo. Pero X y X' no lo ven de esa forma. Sin duda se requiere cierto compromiso entre
+la ___eficiencia global___ y la equidad hacia las conexiones individuales.
+En este ejemplo claro está que minimizar el retardo promedio de los paquetes es un cantidato
+obvio para enviar tráfico a través de la red en forma __efectiva__, pero también lo es aumentar
+al máximo la velocidad real de __transferencia total__ de la red. Estas dos metas están
+en conflicto!! Muchas redes como término medio intentan minimizar la distancia que debe
+recorrer el paquete, o simplemente reducir el número de saltos que tiene que dar un paquete.
+
+<p class="blue grande">ALGORITMOS ADOPTATIVOS(enrutamiento dinámico) Y NO ADOPTATIVOS (enrutamiento estático)</p>
+Uno cambia sus decisiones de enrutamiento para reflejar los cambios de la topología y algunas
+veces también los cambios en el tráfico. Estos algoritmos de enrutamiento dinámico cambian
+en cuanto al lugar de donde sacan su información por ejemplo cuando una topología cambia 
+saca la info de otro lado, o cuando pasan X segundos o cuando hay mucho tráfico en alguna ruta.
+
+<p class="blue grande">PRINCIPIO DE OPTIMIZACIÓN</p>
+<img style="width:750px;" src="optimizacion.jpg"/>
+Este principio establece que si el enrutador J está en la ruta óptima del enrutador I 
+al enrutador K, entonces la ruta óptima de J a K también está en la misma ruta. Por
+ejemplo llamemos r_1 a la parte de la ruta de I a J y r_2 al resto de la ruta. Si
+existirera una ruta mejor que r_2 entre J y K, se podría concatenar con r_1 para mejorar
+la ruta de I a K, lo cual contradice nuestro postulado de que r_1r_2 es óptima.
+Dicho árbol se conoce como <p class="red">árbol sumidero(o árbol divergente)</p> y se ilusta en
+la <p class="green">figura 5-6(b)</p>, donde la métrica de distancia es el número de saltos. El
+objetivo de todos los algoritmos de enrutamiento es descubrir y usar los árboles sumidero 
+para todos los enrutadores. Un árbol sumidero no es único, se denomina DAG en el caso de que se
+elijan todas las posibles rutas, DAG no tienen ciclos.
+Puesto que un árbol sumidero es un árbol, no contiene ciclos, por lo que cada paquete se entregará
+en un número de saltos finito y limitado. 
+
+<p class="blue grande">Algoritmo de la ruta más corta</p>
+<img src="caminocorto.jpg"/>
+Los primeros cinco pasos utilizados para calcular el camino más corto desde A hasta D. 
+Las flechas indican el nodo de trabajo.
+
+<p class="blue grande">Inundación</p>
+Técnica en la que cada paquete entrante se envía en todas las líneas de salida, excepto
+en la línea por la que llegó. La inundación genera grandes cantidades de paquetes
+duplicados; de hecho, puede ser una cantidad infinita. Una de las medidas para 
+controlar esta inundación es integrar un <p class="green">contador de saltos</p> 
+y que el paquete se descarte cuando llegue a 0. Esta técnica puede producir un número
+exponencial de paquetes duplicados a medida que aumenta el conteo de saltos y los
+enrutadores duplican los paquetes que ya han visto antes. Una <p class="red">mejor
+técnica</p> es llevar un registro de los paquetes difundidos en la inundación, 
+para evitar enviarlos una segunda vez para lograr este objetivo hacemos que el 
+enrutador de origen ponga un número de secuencia en cada paquete que reciba de sus hosts. 
+Si un paquete de entrada está en la lista, no se difunde mediante inundación.
+La técnica de inundación no es práctica pero asegura entregar los paquetes a todos 
+los nodos de la red.
+
+<p class="blue grande">Enrutamiento por vector de distancia</p>
+<img src="vectordedistancia.jpg"/>
+Opera haciendo que cada enrutador mantenga una tabla (un vector) que proporcione
+la mejor distancia conocida a cada destino y el enlace que se puede usar para
+llegar ahí. Para actualizar estas tablas se intercambia información con los
+vecinos. Eventualmente, todos los ruteadores conocen el mejor enlace para alcanzar
+cada destino.
+En el enrutamiento por vector de distancia, cada enrutador mantiene una tabla de
+enrutamiento indicada por cada enrutador de la red. Esta entrada consta de dos
+partes: la línea preferida de salida a usar para ese destino y una estimación del
+tiempo o distancia a ese destino. La distancia se podría medir como la cantidad
+de saltos o se podría usar otra métrica.
+Este proceso de actualización se ilusta en la <p class="green">figura 5-2</p>. En
+la parte (a) se muestra una red. Las primeras cuatro columnas de la parte (b) 
+muestran los <p class="green">vectores de retardo recibidos de los vecinos del 
+enrutador</p> J. 
+
+<p class="red grande">Limitaciones</p>
+Un problema es el de la transmisión de malas noticias por la red tales como la 
+ruptura de un enlace o la desaparición de un nodo. Este algoritmo converge 
+lentamente en estos casos. Aunque el principal inconveniente de este algirtmo es
+el de la cuenta a infinito.
+<img src="conteoinfinito.JPG"/>
+· Inicialmente A está desactivado. Cuando A se activa, B se entera de que A 
+existe al recibir su vector distancia y actualizar su tabla indicando que A dista 1.
+
+· El nodo C se entera de que A existe porque B le indica que tiene un enlace hacia
+A de coste 1. Entonces C actualiza su tabla registrando una trayectoria hacia A 
+de coste 2.
+
+· Si el nodo A se desconecta entonces B no recibe el VD de A. Sin embargo el nodo 
+C le dice que tiene una trayectoria hasta A de distancia 2. B no sabe que la 
+trayectoria de C a A pasa por el mismo y por tanto cree que puede llegar a A 
+a través de C por lo que actualiza su tabla registrando la distancia 
+2 + 1 = 3 hasta A.
+
+· En el siguiente intercambio, el nodo C comprueba que sus vecinos B y D tienen
+una trayectoria hasta A de distancia 3. C calcula su propia distancia hasta 
+A en 3 + 1 = 4. En los siguientes intercambios, los nodos elevan ilimitadamente
+su distancia a A (cuenta a infinito).
+
+Mientras no se interrumpa la cuenta a infinito, el algoritmo no converge. Aunque
+se han propuesto diversas soluciones a este problema 
+
+<p class="blue grande">Enrutamiento por estado de enlace</p>
+<p class="green">Otra referencia:</p> <a href="http://giret.ufps.edu.co/cisco/descargas/Presentaciones/Modulo2_capitulo10.pdf">Enrutamiento por estado de enlace - Cisco</a>
+
+El enrutamiento por vector de distancia se reemplazó por el enrutamiento por estado
+del enlace. El principal problema que provocó su desaparición era que, con frecuencia
+el algoritmo tardaba mucho en converger una vez que cambiana la topología de la red
+(debido al problema del conteo al infinito).
+
+Cada enrutador debe realizar lo siguiente para hacerlo funcionar:
+· Descubrir a sus vecinos y conocer sus direcciones de red.
+· Establecer la métrica de distancia o de costo para cada uno de sus vecinos.
+· Construir un paquete a todos los demás enrutadores y recibir paquetes de ellos.
+· Calcular la ruta más corta a todos los demás enrutadores.
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+
+
+</div>
+
+
+</body>
+
+
+
+
+
+</html>
+
