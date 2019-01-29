@@ -2,21 +2,46 @@ body{
   background-color:#eee;
 }
 
+ul {
+  list-style-type: square;
+  margin: 0 0 0 0;
+  padding: 10px;
+}
+
 img.terry{
   float:right;
   position:relative;
   width:300px;
   height:150px;
 }
-div.border{
+
+div{
+  visibility: hidden;
+}
+
+
+div.cita{
+  visibility: visible;
   margin:auto;
-  width:80%;
+  width:auto;
+  background:#fff;
+  border: 1px solid black;
+  padding: 20px;
+}
+
+
+
+
+div.border{
+  visibility: visible;
+  margin:auto;
+  width:85%;
   border: 6px solid blue;
   padding: 20px;
 }
 div.ubuntu_letra{
   font-family:Ubuntu;
-  font-size:15px;
+  font-size: 1.5vw;
 }
 
 

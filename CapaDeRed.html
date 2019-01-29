@@ -134,10 +134,10 @@ la ruta de I a K, lo cual contradice nuestro postulado de que r_1r_2 es óptima.
 Dicho árbol se conoce como <p class="red">árbol sumidero(o árbol divergente)</p> y se ilusta en
 la <p class="green">figura 5-6(b)</p>, donde la métrica de distancia es el número de saltos. El
 objetivo de todos los algoritmos de enrutamiento es descubrir y usar los árboles sumidero 
-para todos los enrutadores. Un árbol sumidero no es único, se denomina DAG en el caso de que se
-elijan todas las posibles rutas, DAG no tienen ciclos.
-Puesto que un árbol sumidero es un árbol, no contiene ciclos, por lo que cada paquete se entregará
-en un número de saltos finito y limitado. 
+para todos los enrutadores. Un árbol sumidero no es único, se denomina 
+<b>DAG</b> en el caso de que se elijan todas las posibles rutas, DAG no tienen
+ciclos. Puesto que un árbol sumidero es un árbol, no contiene ciclos, 
+por lo que cada paquete se entregará en un número de saltos finito y limitado. 
 
 <p class="blue grande">Algoritmo de la ruta más corta</p>
 <img src="caminocorto.jpg"/>
@@ -209,34 +209,124 @@ se han propuesto diversas soluciones a este problema
 El enrutamiento por vector de distancia se reemplazó por el enrutamiento por estado
 del enlace. El principal problema que provocó su desaparición era que, con frecuencia
 el algoritmo tardaba mucho en converger una vez que cambiana la topología de la red
-(debido al problema del conteo al infinito).
+<p class="red">(debido al problema del conteo al infinito)</p>.
 
-Cada enrutador debe realizar lo siguiente para hacerlo funcionar:
-· Descubrir a sus vecinos y conocer sus direcciones de red.
-· Establecer la métrica de distancia o de costo para cada uno de sus vecinos.
-· Construir un paquete a todos los demás enrutadores y recibir paquetes de ellos.
-· Calcular la ruta más corta a todos los demás enrutadores.
- 
+<p class="red grande">Funcionamiento</p>
+Lo podemos dividir en cinco pasos fundamentales:
 
+· Descubrir a sus vecinos y sus direcciones.
+· Medir el costo a cada uno de sus vecinos.
+· Construir el paquete con la información recabada.
+· Enviar este paquete al resto de routers
+· Calcular la ruta mínima al resto de routers.
 
+<div class="cita">
+<b>Determinar los vecinos de cada nodo.</b> Para ello, manda un
+paquete especial dependiendo que protocolo se utiliza, si es OSPF utilizará
+<p class="red">HELLO</p> por cada línea punto a punto. Todo router que reciba
+este paquete debe responder indicando su identidad.
 
+<b>Cálculo del coste a los vecinos.</b> Cada router manda un
+paquete especial <p class="red">ECHO</p> a través de la línea el cual debe 
+volver a su origen. El tiempo de ida y vuelta dividido entre dos nodos da una
+aproximación razonable del costo a cada vecino de la red.
 
+<b>Elaboración de paquete de estado de enlace.</b> Consiste en que cada router
+construye un paquete con todos los datos que informan del estado de la red. La
+estructura de este paquete es la siguiente:
 
+· Identidad del router
+· Secuencia
+· Edad
+· Lista de nodos vecinos
 
+El problema de esta etapa es el momento de la creación de estos paquetes. Hay
+varias alternativas como hacerlo de manera periódica o bien cuando haya ocurrido
+un evento en la red como la caída de un nodo.
 
+<b>Distribución de paquete de estado de enlace.</b> Es la más complicada. Lo que
+hace es repartir el paquete por toda la red por <p class="red">inundación</p>.
+Para controlarla, cada paquete incluye un número de secuencia que aumenta con
+cada paquete nuevo enviado (como vimos anteriormente en Inundación). Cada router
+contiene una tabla con toda la información de tal manera que:
+A pesar de todo, surgen ciertos problemas como el reinicio de la secuencia. Si
+ocurre esto, se producirá un caos en la red. Solución usar secuencias de 32 bits,
+lo suficientemente grandes para no tener que poner la secuencia a 0. Otros 
+conflictos surgen en el caso de caída de un router (reinicio del número de 
+secuencia) o si se recibe un número de secuencia equivocado por haberse modificado
+alguno de sus bits durante la transmisión.
+La solución introducir edad de cada paquete e ir disminuyéndola en un intervalo
+pequeño de tiempo. Cuando llegue a 0, descartarlo. 
 
+<b>Cálculo de ruta mínima.</b> Una vez que el router ha completado la recompilación
+de información, puede construir el grafo de la subred. De esta manera, se puede
+utilizar <a href="#">algoritmo de Dijkstra</a> para calcular el camino más corto
+a todos los nodos.
+</div>
 
+<p class="blue grande">Encaminamiento jerárquico</p>
+Problema: Las tablas que están en crecimiento constante no sólo consumen memoria
+del enrutador, sino que también se necesita más tiempo de CPU para examinarlas y
+más ancho de banda para enviar informes de estado entre enrutadores, la red 
+puede crecer hasta el punto en que ya no sea viable que cada
+enrutador tenga una entrada para cada uno de los demás enrutadores. Ahí es donde
+entra el <p class="green">enrutamiento jerárquico</p>, como ocurre en la red telefónica.
+Cuando se utiliza el enrutamiento jerárquico, los enrutadores se dividen en lo
+que llamaremos <b>regiones</b>. Cada enrutador conoce todos los detalles para enrutar
+paquetes a destinos dentro de su propia región, pero no sabe nada de la estructura
+interna de las otras regiones. 
 
+Un buen ejemplo sería considerar una empresa. La mayoría de las intranets
+corporativas consisten en una red troncal de alta velocidad. Conectado a esta red
+troncal hay enrutadores que a su vez están conectados a un grupo de trabajo en
+particular. Estos grupos de trabajo ocupan una LAN única. <font color="red">La razón
+por la cual este es un buen arreglo es porque aunque haya decenas de grupos de
+trabajo diferentes, el lapso (recuento de saltos máximo para obtener de un host 
+a cualquier otro host en la red) es 2</font>. Incluso si los grupos de trabajo
+dividieron su red LAN en particiones más pequeñas, el lapso solo podría aumentar 
+a 4 en este ejemplo particular.
+<p class="green">Si cada enrutador estaba conectado a 2 enrutadores, muestra la conveniencia del
+enrutamiento jerárquico. Disminuye la complejidad de la topología de red, aumenta
+la eficiencia de enrutamiento y causa menos congestión</p>.
 
+<p class="blue grande">Enrutamiento difusión</p>
+El envío simultáneo de un paquete a todos los destinos se llama difusión
+(broadcasting). Existen varios métodos para llevarla a cabo.
+Un método de difusión que no requiere características especiales de la red es
+que el origen sólo envíe un paquete distinto a cada destino. El método no sólo
+desperdicia ancho de banda y es lento, sino que también requiere que el origen
+tenga una lista completa de todos los destinos.
+Una mejora es el <b>enrutamiento multidestino</b> es como los paquetes con
+direccionamiento individual, sólo que cuand varios paquetes deben seguir la
+misma ruta, uno de ellos paga la tarifa completa y los demás viajan gratis, el
+ancho de banda se utiliza con más eficiencia. 
+Ya hemos visto una mejor de enrutamiento por difusión: <p class="red">inundación</p>.
+Cuando se implementa con un número de secuencia por cada origen, la 
+inundación usa los enlaces de manera eficiente con una regla de decisión de los
+enrutadores que es relativamente simple. La inundación es poco adecuada para la
+comunicación punto a punto ordinaria, para difusión puede merecer que se le
+considere con seriedad. Pero podemos hacer algo todavía mejor.
 
+La idea del <b>reenvío por ruta invertida</b> es que cuando llega un paquete
+difundido a un enrutador, éste lo revisa para ver si llegó por el enlace que se
+usa por lo común para enviar paquetes hacia el origen de la difusión. De ser así
+hay excelentes posibilidades de que el paquete difundido haya seguido la mejor
+ruta desde el enrutador y por lo tanto sea la primera copia en llegar al enrutador.
+Si éste es el caso, el enrutador reenvía copias del paquete a todos los enlaces,
+excepto a aquel por el que llegó. No obstante, si el paquete difundido llegó por
+un enlace diferente del preferido para llegar al origen, el paquete se descarta
+como probable duplicado.
 
+<p class="green">Ver figura 5-15 y página 328 de la 5ta edición de Andrew Tanenbaum</p>
+...
+(COMPLETAR)
 
+<p class="blue grande">Enrutamiento multidifusión</p>
+<p class="blue grande">Enrutamiento anycast</p>
+<p class="blue grande">Enrutamiento para hosts móviles</p>
+<p class="blue grande">Enrutamiento en redes ad hoc</p>
 
-
-
-
-
-
+<p class="blue grande">Algoritmos de control de congestión</p>
 
 
 
