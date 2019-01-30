@@ -3,11 +3,21 @@
   <title>CAPA DE RED</title>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
   <link rel="stylesheet" type="text/css" href="comu_style.css">
+  <script src="ClickMe.js"></script>
+  <script src="scroll.js"></script>
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Ubuntu" />
   <img class="terry" src="terry.jpg"/>
 </head>
 
 <body>
+
+<div class="header">
+  <div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+  </div>  
+</div>
+
+
 <div class="ubuntu_letra border">
 <pre>
 <p class="blue grande">Problemas de diseño de la capa de red.</p>
@@ -264,7 +274,7 @@ utilizar <a href="#">algoritmo de Dijkstra</a> para calcular el camino más cort
 a todos los nodos.
 </div>
 
-<p class="blue grande">Encaminamiento jerárquico</p>
+<p class="blue grande">Enrutamiento jerárquico</p>
 Problema: Las tablas que están en crecimiento constante no sólo consumen memoria
 del enrutador, sino que también se necesita más tiempo de CPU para examinarlas y
 más ancho de banda para enviar informes de estado entre enrutadores, la red 
@@ -325,28 +335,178 @@ como probable duplicado.
 <p class="blue grande">Enrutamiento anycast</p>
 <p class="blue grande">Enrutamiento para hosts móviles</p>
 <p class="blue grande">Enrutamiento en redes ad hoc</p>
-
 <p class="blue grande">Algoritmos de control de congestión</p>
+<p class="blue grande">Interconexión de redes</p>
+Existen muchas redes distintas entre ellas PAN, LAN, MAN, y WAN. Ya numerosos
+protocolos con un uso muy difundido a través de estas redes, en cada capa. En
+las siguientes secciones estudiaremos con cuidado los aspectos que surgen cuando
+se conectan dos o más redes para formar una <b>interred</b>.
+Sería más simple unir redes si todos usaran una sola tecnología de red; a menudo
+se da el caso de que hay un tipo dominante de red, como Ethernet. Los distintos
+tipos de redes luchan con problemas diferentes; por ejemplo, las redes Ethernet y
+satelitales casi siempre difieren. Al reutilizar los sistemas existentes, como
+operar redes de datos a través del servicio de cable, la red telefónica y el
+cableado elétrico, se agregan liminataciones que ocasionan la divergencia de la
+características de las redes.
 
 
+<p class="blue grande">Cómo se pueden conectar las redes</p>
+Hemos analizado varios dispositivos diferentes que conectan redes, incluyendo
+repetidores, hubs, switches, puentes, enrutadores y puertas de enlace. Los 
+repetidores y hubs sólo desplazan bits de un cable a otro. En su mayoría son
+dispositivos analógicos y no comprenden nada sobre los protocolos de las capas
+superiores. <p class="red">Los puentes y switches operan en la capa de enlace.
+Se pueden usar para construir redes, pero sólo con una pequeña traducción 
+de protocolos en el proceso; por ejemplo, entre los switches Ethernet de 
+10, 100 y 1000 Mbps</p>. Hablaremos de los enrutadores operan en la capa red. 
+
+Primero observemos a un alto nivel la forma en que sep uede usar la interconexión
+con una capa de red común para interconectar redes distintas. Se muestra en la
+<p class="green">figura 5-39(a)</p> una interred compuesta por redes 802.11, MPLS
+y Ethernet. Suponga que la máquina fuente en la red 802.11 desea enviar un paquete
+a la máquina de destino en la red Ethernet. Como estas tecnologías son distintas
+y además están separadas por otro tipo de red(MPLS), <p class="red"> se requiere un
+procesamiento adicional en los límites entre las redes</p>. Como diferentes redes
+pueden tener distintas formas de direccionamiento, el paquete transporta una 
+dirección de capa de red que puede identificar cualquier host a través de las tres
+redes. (Error de tipo página 367 Tanenbaum (dferentes)).
+El primer límite al llega el paquete es cuando cambia de una red 802.11 a una red
+MPLS. 802.11 proporciona un servicio de conexión, pero MPLS provee un servicio
+orientado a conexión. Esto significa que se debe establecer un circuito virtual para
+cruzar esa red. <p class="red">Para manejar este problema, el paquete se divie en 
+fragmentos y cada fragmento se envía por separado. Cuando los fragmentos llegan a su
+destino, se vuelven a ensamblar. Entocnes es cuando el paquete ha completado su viaje.</p>
+<p class="green">Cabe mencionar que hay una diferencia esencial entre el caso de enrutamiento y el
+caso de conmutación (o puenteo). Con un enrutador, el paquete se extrae de la trama
+y la dirección de red en el paquete se utiliza para decidir a dónde enviarlo. Con un
+switch(o puente), toda la trama se transporta con base en su dirección MAC. Los
+switches no tienen que entender el protocolo de la capa de red que se utiliza para
+conmutar los paquetes. Los enrutadores sí tienen que hacerlo (la trama vendría a ser
+[[802.11]|[IP]]).</p>
+Cuando se introdujeron los puentes, la intención era que unieran distintos tipos de
+redes, o por lo menos distintos tipos de LAN. Para ello debían traducir tramas de una
+red LAN en tramas de otra LAN. Sin embargo, esto no funcionó bien debido a la misma
+razón por la que es difícil la interconexión de redes: las diferencias en las 
+características de las LAN (como los distintos tamaños máximos de paquetes, y las LAN
+con y sin clases de prioridad) son difíciles de enmascarar. En la actualidadd, el uso
+más común de los puentes es para conectar el mismo tipo de red en la capa de enlace
+y los enrutadores conectan distintas redes en la capa de red.
+Un enrutador que puede manejar múltiples protocolos de red se denomina <b>enrutador 
+multiprotocolo</b>. Este debe traducir los protocolos o dejar una conexión para una
+capa de protocolo superior. 
+
+<p class="blue grande">Calidad de servicio</p>
+Dos campos son importantes: Traffic class y Flow label.
+Hay tres modelos de calidad de servicio:
+
+· Best Effort: Todos los paquetes son tratados de igual forma y no provee una
+calidad de tráfico.
+· Integrates services(IntServ): El usuario solicita de antemano los recursos que
+necesita; cada router del trayecto ha de tomar nota y efectuar la reserva soli-
+citada. Este método es complejo y hace reserva en cada router por cada flujo.
+Además tampoco es escalable.
+· Differentialed Services (DiffServ): El usuario marca los paquetes con una
+determinada etiqueta que marca la prioridad y el trato que deben recibir por
+parte de los routers; estos no son conscientes de los flujos activos.
+<p class="blue grande">Coexistencia y transición</p>
+Transición de IPv4 a IPv6
+· IP capa cual: los routers y los host soportan IPv4 e IPv6.
+· Túneles de IPv6 sobre IPv4: los paquetes de IPv6 se encapsulan con
+encabezados IPv4.
+
+Estas técnicas de transición se dividen en 3 categorías:
+· Doble pila: provee soporte a ambos protocolos en el mismo dispositivo.
+· Tunelización: permite el tráfico de paquetes IPv6 sobre la estructura de
+la red IPv4.
+· Traducción: Permite la comunicación entre nodos que sólo soportan IPv6
+y nodos que sólo soportan IPv4.
 
 
+<p class="blue grande">Fragmentación de paquetes</p>
+Por lo general, una fuente no conoce la ruta que tomoará un paquete a través de
+la red hacia un destino, por lo que en definitiva no sabe qué tan pequeños deben
+ser los paquetes para llegar ahí. A este tamaño de paquete se le conoce como
+<b>MTU de la ruta(Unidad de Transmisión Máxima de la ruta)</b>. Incluso si la
+fuente conociera el MTU de la ruta, los paquetes se enrutan de manera independiente
+en una red sin conexión como Internet. Este enrutamiento significa que las rutas
+pueden cambiar de repetnte, lo que a su vez puede cambiar de manera inesperada el
+MTU de la ruta.
+<p class="green">La solución alternativa es permitir que los enrutadores dividan los
+paquetes en fragmentos y envíen cada uno como un paquete de red separado</p>. Sin
+embargo es mucho más fácil convertir un objeto grande en pequeños fragmentos que el
+proceso inverso (Segunda Ley de termodinámica).
+Existen dos estrategias opuestas para recombinar los fragmentos de vuelta en el
+paquete original. La primera es hacer que la fragmentación producida por una red
+de "pequeños paquetes" sea transparente para cualquier red subsecuente por la que
+deba pasar el paquete en su camino hacia el destino final. Esta opción semuestra
+en la figura <p class="green">figura 5-42(a)</p>. En este método, cuando un paquete
+de tamaño excesivo llega a G1, el enrutador lo divide en fragmentos. Cada 
+fragmento es dirigido al mismo enrutador de salida, G2, en donde se recombinan las
+piezas. De esta manera se ha hecho transparente el paso a través de la red de
+paquete pequeño. <p class="red">Las redes subsecuentes ni siquiera se enteran de que ha ocurrido</p>
+una fragmentación.
+La fragmentación transparente es sencilla, pero tiene algunos problemas. 
+El enrutador de salida debe saber cuándo ha recibido todas las piezas, por lo que
+debe incluirse un campo de conteo. Además como todos los paquetes deben salir por
+el mismo enrutador para volver a ensamblarlos, la rutas están restringidas. Al no
+permitir que algunos fragmenos sigan una ruta al destino final, y otros fragmentos
+una ruta distinta, puede bajar un poco el desempeño. Lo más importante es la 
+cantidad de trabajo que el enrutador tenga que llevar a cabo.
 
 
+<img src="packet.png"/>
+<p class="green">Figura 5-42</p>
+La <p class="green">otra</p> estrategia de fragmentación es abstenerse de recombinar
+los fragmentos en los enrutadores. Una vez que se ha fragmentado un paquete, cada
+fragmento se trata como si fuera un paquete original. Los enrutadores pasan los
+fragmentos, como se muestra en la <p  class="green">figura 5-42(a)</p>; la recombinación
+ocurre sólo en el host de destino. 
+<p class="blue grande">Ventaja de fragmentación no transparente</p>
+Los enrutadores tienen que trabajar menos. IP funciona de esta manera. Un diseño
+completo requiere que los fragmentos se enumeren de tal forma que se pueda 
+reconstruir el flujo de datos original. El diseño utilizado por IP es proporcionar
+a cada fragmento un número de paquete (que todos los paquetes transportan), un
+desplazamiento de bytes absoluto dentro del paquete, y una bandera que indica si
+es el final del paquete. 
 
+En la <p class="green">figura 5-43</p> se muestra un ejemplo.
 
+<img src="packet2.png"/>
 
+Los fragmenos se pueden colocar en un búfer en el destino, en el lugar apropiado
+para recombinarlos, aun cuando lleguen desordenados. Los fragmentos también se 
+pueden fragmentar si pasan a través de una red con una MTU aún más pequeña. Esto
+se muestra en la <p class="green">figura 5-43(c)</p>. Las retransmisiones del
+paquete (si no se recibieron todos los fragmentos) se pueden fragmentar en 
+distintas piezas. Por último, los fragmentos pueden ser de un tamaño arbitrario,
+incluso hasta de un sólo byte más el encabezado del paquete.
+Por desgracia, este diseño aún tiene problemas. La sobrecarga puede ser mayor
+que con la fragmentación transparente, ya que los encabezados de los fragmentos
+ahora se transportan a través de algunos enlaces en donde tal vez no sean
+necesarios. Pero el verdadero problema es la existencia de los fragmentos en
+primera instancia. <p class="red">La fragmentación es perjudicial para el
+desempeño ya que al igual que las sobrecargas de los encabezados, un paquete
+completo se extravía si cualquiera de sus fragmentos se pierde</p>.
 
-
-
-
-
-
-
-
-
-
-
+<p class="blue grande">MTU</p>
+<img src="mtu.png"/>
+Esto nos conduce de vuelta a la solución original de desshacernos de la
+fragmentación en la red, la estrategia que se utiliza en la Internet moderna.
+Al proceso se le conoce como <b>descubrimiento de MTU de la ruta</b> y trabaja
+de la siguiente manera. Cada paquete IP se envía con sus bits de encabezado
+establecidos para indicar que no se pueden realizar ningún tipo de fragmentación.
+Si un enrutador recibe un paquete demasiado grande, genera un paquete de error
+lo devuelve a la fuente y descarta el paquete. Si un enrutador más adelante
+en la ruta tiene una MTU aún más pequeña, se repite el proceso.
+La <p class="green">ventaja</p> del descubrimiento MTU de la ruta es que ahora
+la fuente sabe la longitud del paquete que puede enviar. Si las rutas y la MTU
+de la ruta cambian, se activarán nuevos paquetes de <p class="red">error</p> y la
+fuente se adaptará a la nueva ruta.
+La <p class="red">desventaja</p> del descubrimiento de MTU de la ruta es que
+puede haber retardos iniciales adicionales sólo por enviar un paquete. Tal vez
+sea necesario más de un retardo de ida y vuelta para sondear la ruta y encontrar
+la MTU.
+<p class="blue">La fragmentación se sacó de la red y se pasó a los hosts.</p>
 
 
 
