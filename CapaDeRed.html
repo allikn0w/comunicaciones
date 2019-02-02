@@ -6,7 +6,7 @@
   <script src="ClickMe.js"></script>
   <script src="scroll.js"></script>
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Ubuntu" />
-  <img class="terry" src="terry.jpg"/>
+  <img class="terry" id="terry" src="terry.jpg" onmouseover="biggers();" onmouseout="back()"/>
 </head>
 
 <body>
@@ -43,6 +43,8 @@ almacenamiento y envío.
 de los enrutadores presentes.
 · Las direcciones de red disponibles para la capa de transporte deben usar
  un plan de numeración iguales(uniforme), incluso a través de las redes LAN y WAN.
+<p class="blue grande">Repaso del modelo OSI</p>
+<img src="OSI.png">
 
 <p class="blue grande">Implementación del servicio sin conexión</p>
 En este contexto, por lo general los paquetes se conocen como datagramas
@@ -349,7 +351,6 @@ operar redes de datos a través del servicio de cable, la red telefónica y el
 cableado elétrico, se agregan liminataciones que ocasionan la divergencia de la
 características de las redes.
 
-
 <p class="blue grande">Cómo se pueden conectar las redes</p>
 Hemos analizado varios dispositivos diferentes que conectan redes, incluyendo
 repetidores, hubs, switches, puentes, enrutadores y puertas de enlace. Los 
@@ -373,7 +374,7 @@ redes. (Error de tipo página 367 Tanenbaum (dferentes)).
 El primer límite al llega el paquete es cuando cambia de una red 802.11 a una red
 MPLS. 802.11 proporciona un servicio de conexión, pero MPLS provee un servicio
 orientado a conexión. Esto significa que se debe establecer un circuito virtual para
-cruzar esa red. <p class="red">Para manejar este problema, el paquete se divie en 
+cruzar esa red. <p class="red">Para manejar este problema, el paquete se divide en 
 fragmentos y cada fragmento se envía por separado. Cuando los fragmentos llegan a su
 destino, se vuelven a ensamblar. Entocnes es cuando el paquete ha completado su viaje.</p>
 <p class="green">Cabe mencionar que hay una diferencia esencial entre el caso de enrutamiento y el
@@ -461,7 +462,7 @@ cantidad de trabajo que el enrutador tenga que llevar a cabo.
 La <p class="green">otra</p> estrategia de fragmentación es abstenerse de recombinar
 los fragmentos en los enrutadores. Una vez que se ha fragmentado un paquete, cada
 fragmento se trata como si fuera un paquete original. Los enrutadores pasan los
-fragmentos, como se muestra en la <p  class="green">figura 5-42(a)</p>; la recombinación
+fragmentos, como se muestra en la <p  class="green">figura 5-42(b)</p>; la recombinación
 ocurre sólo en el host de destino. 
 <p class="blue grande">Ventaja de fragmentación no transparente</p>
 Los enrutadores tienen que trabajar menos. IP funciona de esta manera. Un diseño
@@ -492,7 +493,7 @@ completo se extravía si cualquiera de sus fragmentos se pierde</p>.
 
 <p class="blue grande">MTU</p>
 <img src="mtu.png"/>
-Esto nos conduce de vuelta a la solución original de desshacernos de la
+Esto nos conduce de vuelta a la solución original de deshacernos de la
 fragmentación en la red, la estrategia que se utiliza en la Internet moderna.
 Al proceso se le conoce como <b>descubrimiento de MTU de la ruta</b> y trabaja
 de la siguiente manera. Cada paquete IP se envía con sus bits de encabezado
@@ -510,77 +511,135 @@ sea necesario más de un retardo de ida y vuelta para sondear la ruta y encontra
 la MTU.
 <p class="blue">La fragmentación se sacó de la red y se pasó a los hosts.</p>
 <p class="blue grande"><a href="red.pdf">Protocolo IPv4 e IPv6</a></p>
+Es la cuarta versión del protocolo IP, y la primera en ser implementada a gran
+escala. Usa direcciones de 32 bits, es decir que hay 2^32 direcciones disponibles.
+Los objetivos del protoclo IP son:
+· Realizar la función de ruteo.
+· Generar datagramas, los cuales son la unidad básica para la transferencia de
+datos a través de Internet.
+· Incluir un conjunto de reglas para la entrega de paquetes no confiables.
+<p class="blue grande">Cabecera IPv4</p>
+<p class="green">Versión (4 bits)</p>: Es el siguiente grupo de bits 0100 que representan el 4.
+<p class="green">Longitud de cabecera (4 bits)</p>: tendrá un tamaño entre 20 y 60 bytes dependiendo de
+las opciones.
+<p class="green">Tipo de servicio (8 bits)</p>: Indica una serie de parámetros sobre la
+calidad de servicio deseada durante el tránsito por una red. Algunas 
+redes ofrecen prioridades de servicios, considerando determinado tipo 
+de paquetes "más importantes" que otros.
+<p class="green">Longitud Total(16 bits)</p>: mide la cabecera + el campo de datos.
+<p class="green">Indentificador(16 bits)</p>: Se utilizará, en caso de que el
+datagrama deba ser fragmentado, para poder distinguir los fragmentos de un datagrama
+de los de otro.
+<p class="green">Flag(3 bits)</p>: utilizado sólo para especificar valores relativos
+a la fragmentación de paquetes.
+<p class="green">Posición de Fragmento (13 bits)</p>: En paquetes fragmentados indica
+la posición que ocupa el paquete actual dentro del datagrama original.
+<p class="green">Tiempo de vida (8 bits)</p>: Indica el máximo número de enrutadores
+que un paquete puede atravesar. Cada vez que algún nodo procesa este paquete 
+dismuye su valor en 1 como mínimo, una unidad. Cuando llegue a ser 0, el paquete
+será descartado.
+<p class="green">Protocolo (8 bits)</p>: Indica el protocolo de las capas superiores
+al que debe entregarse el paquete.
+<p class="green">Checksum(16 bits)</p>: Se recalcula cada vez que algún nodo cambia
+alguno de sus campos. Sirve para el control de errores.
+<p class="green">Dirección IP de origen (32 bits)</p>
+<p class="green">Dirección IP de destino (32 bits)</p>
+<p class="green">Opciones(variable)</p>: Aunque no es obligatoria la utilización de
+este campo, cualquier nodo debe ser capaz de interpretarlo. Puede contener un
+número indeterminado de opciones.
+<p class="green">Relleno (variable)</p>: Utilizado para asegurar que el tamaño, en
+bits, de la cabecera es un múltiplo de 32. El valor usado es el 0.
+
+127.0.0.1 (127 y nada o 1)                  -- Loopback (mi propio host)
+0.0.0.10 (Todos 0 y host)                   -- Anfitrión de esta red
+192.3.0.0 (red y todos 0)                   -- Identifica la red
+192.3.255.255.255 (red y host todos en 1)   -- Difusión a esta red
+
+<p class="blue grande">Ruteo de datagramas</p>
+Con ruteo nos referimos al proceso de selección de un camino para el enviío de
+paquetes. El router es el dispositivo que realiza esta selección. Existen dos
+formas:
+<p class="blue">Entrega directa</p>
+Transmisión de datagrama desde una máquina a través de una sola red física.
+Esto no involucra ruteadores, el transmisor encapsula el datagrama dentro de
+una trama física, transforma la dirección IP de destino en una dirección
+física de hardware y envía la trama resultante a ese destino.
+Para saber si el destino esta conectado a la misma red que el transmisor, éste
+extrae la parte de red de su dirección IP y la compara esa misma porción de
+la IP la del destinno, si son iguales quiere decir que están en la misma red.
+<p class="blue">Entrega indirecta</p>
+El transmisor debe identificar un ruteador para enviar el datagrama. Éste debe
+encaminar el datagrama hacia la red de destino. El transmisor encapsula el
+datagrama y lo envía hacia el ruteador más cercano, este lo recibe, lo extrae
+y el software IP elige el próximo ruteador a lo largo del camino hacia el destino.
+<b>¿Cómo elige el ruteador a donde enviar cada datagrama?</b>
+Esto se hace mediante tablas de ruteo IP. Estas se encuentran en cada host y
+ruteador, contienen información de todos los posibles destinos y cómo alcanzarlos.
+Para mantener reducidas las tablas de ruteo, ocultar información y tomar
+decisiones de ruteo eficientes, el software de ruteo IP sólo puede guardar
+información sobre las direcciones de las redes de destino, no sobre las 
+direcciones de anfitriones individuales.
+Otra técnica para lograr esto es la de <p class="red">rutas asignadas por omisión</p>. Consiste en
+asignar un ruteador por omisión con el objetivo que si el software de ruteo IP
+no encuentra una ruta en la tabla, envían el datagrama a este router asignado.
+
+<p class="blue grande">Retomando</p>
+Los routers funcionan con tablas y protocolos, según el siguiente modelo:
+· El router recibe una trama de un equipo conectado a una de las redes a la
+que está conectado;
+· Los datagramas se envían en la capa IP.
+· El router se fija en el encabezado del datagrama.
+· Si la dirección IP de destino pertenece a una de las redes a las que una de las
+interfaces del router está conectada, la información debe enviarse en la capa 4,
+después de de que el encabezado IP haya sido desencapsulado (eliminado).
+· Si la dirección IP de destino es parte de una red distinta, el router consulta
+su tabla de enrutamiento, la cual establece la ruta a tomar para una determinada
+dirección;
+· El router envía el datagrama, utilizando la tarjeta de interfaz de red conectada
+a la red por la que el router decide enviar el paquete.
+
+
+
+Tenemos dos situaciones. Si el remitente y el destinatario pertenecen a
+la misma red, hablamos de <p class="red">entrega directa</p>. Pero, si hay al
+menos un router entre el remitente y el destinatario, hablamos de <p class="red">entrega indirecta</p>.
+En el caso de una entrega indirecta, la función del router y, en particular, la
+de la tabla de enrutamiento es muy importante. Por lo tanto, el funcionamiento de
+un router está determinado por el modo en que se crea esta tabla de enrutamiento.
+<ul type="square">
+  <li>Si el administrador introduce manualmente la tabla de enrutamiento, es un
+<p class="green">enrutamiento estático</p> (adecuado para redes pequeñas)</li>
+  <li>Si el router construye sus propias tablas de enrutamiento, utilizando la
+información que recibe a través de los protoclos de enrutamiento, es un 
+<p class="green">enrutamiento dínamico</p>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 FIN.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
