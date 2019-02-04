@@ -12,12 +12,19 @@ body{
 }
 
 .progress-container {
-
 	visibility:visible;
   width: 100%;
   height: 4px;
   background: #ccc;
 }
+
+.progress-bar_preguntas {
+	visibility:visible;
+  height: 4px;
+  background: #debe4b;
+  width: 0%;
+}
+
 
 .progress-bar {
 	visibility:visible;
@@ -25,6 +32,23 @@ body{
   background: blue;
   width: 0%;
 }
+
+footer{
+  font-size:8pt;
+  text-align:center;
+}
+
+hr{
+  border: 2px solid red;
+  border-radius:5px;
+}
+
+
+#preguntas_progress-bar {
+  background: yellow;
+2}
+
+
 
 
 ul {
@@ -56,6 +80,14 @@ div.cita{
 }
 
 
+div.preguntas{
+  visibility: visible;
+  margin:auto;
+  width:83%;
+  border: 5px solid #899609;
+  border-radius:20px;
+  padding: 15px;
+}
 
 
 div.border{
@@ -83,7 +115,10 @@ p.red {
   display:inline;
   color: red;
 }
-
+p.small{
+  font-size:8pt;
+  display:inline;
+}
 p.blue {
   color: blue;
 }

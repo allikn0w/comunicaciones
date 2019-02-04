@@ -1,0 +1,251 @@
+<html>
+<head>
+  <title>Comunicaciones - Preguntas</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <link rel="stylesheet" type="text/css" href="comu_style.css">
+  <script src="ClickMe.js"></script>
+  <script src="scroll.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="header">
+  <div class="progress-container">
+    <div class="progress-bar_preguntas" id="myBar"></div>
+  </div>  
+</div>
+
+<div class="ubuntu_letra preguntas">
+<pre>
+<p class="blue grande">Dibujar y explicar las principales diferencias entre el modelo OSI y TCP/IP</p>
+Ambos usan el tipo de conmutación por paquetes, sus capas de red y transporte
+son similars. Ambos tienen capa de aplicación pero incluyen servicios muy
+distintos. <p class="green">Mientras que OSI deja en claro la separación entre protocolos,
+servicios e interfaces, TCP/IP no.</p> El modelo OSI fue creado por la ISO
+antes que los protocolos para cada una de sus capas, por ello no todos los
+protocolos funcionan correctamente con este modelo. Lo contrario pasa con TCP/IP.
+
+<p class="blue grande">Esquematizar y explicar los modelos OSI y TCP/IP</p>
+<b>OSI                              TCP/IP</b>
+Aplicación                      Aplicación
+Presentación                      
+Sesión                            
+Transporte                      Transporte
+Red                             Red
+Enlace                          Interfaz de Red
+Física                             
+
+<p class="blue grande">El modelo OSI</p>
+<div class="cita">
+<b>Capa física</b>
+Se lleva a cabo la <p class="green">transmisión de bits puros a través de algún canal de
+comunicación</p>. Además se encarga de definir el <p class="green">medio físico</p>, las 
+<p class="red">características de los materias que se usan en la transmisión</p>, maneja
+las señales eléctricas, etc.
+
+<b>Capa de enlace de datos</b>
+Asegura una <p class="green">transmisión libre de errores y controla el flujo de datos</p>, por la
+diferencia de procesamiento que pueden tener los dos equipos en cuestión,
+agrupa los bits en tramas de datos y las transmite de forma secuencial, también
+provee servicios a la capa de red y controla el acceso al medio.
+Se divide a su vez en dos subniveles: <p class="red">LLC(control de enlace lógico) y MAC
+(control de acceso al medio)</p>.
+
+<b>Capa de red</b>
+El objetivo es hacer que los datos lleguen desde el origen al destino, aún
+cuadno ambos no estén conectados directamente, es decir <p class="green">resuelve el
+dirreccionamiento entre redes</p>. La unidad de información se denomina paquete.
+
+<b>Capa de transporte</b>
+Esta capa acepta los datos provenientes de capas superiores, los divide de
+ser necesario, y luego los pasa a la capa de red aesgurándose de que todas
+las piezas lleguen correctamente. La unidad de información se denomina segmento
+o datagrama.
+
+<b>Capa de sesión</b>
+Es la capa que se encarga de mantener y controlar el enlace establecido entre
+dos computadores que están transmitiendo datos de cualquier índole. Permite
+que los usuarios de máquinas diferentes establezcan sesiones entre ellos. Una
+sesión ofrece varios servicios: <p class="green">control del diálogo (establece quién puede
+transmitir en detemrinado momento), administración de token (que no puedan
+realizar la misma operación crítica al mismo momento), sincronización (coloca
+puntos de referencia para poder continuar desde éstos luego de una caída
+de la red)</p>.
+
+<b>Capa de presentación</b>
+Se ocupa de la semántica y sintaxis de la información con el fin de que
+<p class="green">computadoras con distintas presentanciones de datos puedan comunicarse</p>.
+
+<b>Capa de aplicación</b>
+<p class="green">Ofrece a las aplicaciones la posibilidad de acceder a los servicios de las
+demás capas y define los protocolos que utilizan las aplicaciones para 
+intercambiar datos, como correo electrónico, gestores de bases de datos y
+servicios de ficheros</p>. Hay tantos protocolos como aplicaciones distintas y
+puesto que continuamente se desarrollan nuevas aplicaciones el número de
+protocolos crece continuamente. Cabe aclarar que el usuario normalmente 
+no interactúa directamente con el nivel de aplicación. Suele interactuar con
+programas que a su vez interactúan con el nivel de aplicación pero ocultando
+la complejidad subyacente.
+</div>
+
+<p class="blue grande">Modelo TCP/IP</p>
+Este modelo fue el utilizado en la primera red amplia de computadoras ARPANET.
+Posee 4 capas.
+
+<div class="cita"><b>Capa de interfaz de red</b>
+También denominada capa de host de red. Esta es la capa que maneja todos los
+aspectos que un paquete IP requiere para efectuar un enlace físico real con
+los medios de la red. Son funciones de esta capa: la asignación de dirreciones
+IP a las direcciones físicas, el encapsulamiento de los paqutes IP en tramas.
+Basándose en el tipo de hardware y la interfaz de la red, la capa de acceso de
+red definirá la conexión con los medios físicos de la misma.
+</div>
+<hr>
+<p class="blue grande">Teorema de muestreo de Nyquist-Shannon</p>
+<font size=1pt><i>Aca se viene la parte buena</i>,<b>desarrolla aquí el temilla amiguillo ...</b></font>
+También conocido como teorema de muestreo de Whittaker-Nyquist-Kotelnikov-Shannon
+o bien teorema de Nyquist, es un teorema fundamental de la teoría de la
+información.
+El teorema trata del muestreo, que no debe ser confundido o asociado con la
+cuantificación, proceso que sigue al de muestreo en la digitalización de
+una señal y que, al contrario del muestreo, no es reversible(se produce
+una pérdida de información en el prceso de cuantificacion, incluso en el caso
+ideal teórico, que se traduce en una distorsión conocida como error o ruido
+de cuantificación y que establece un <b>límite teórico superior a la relación
+señal-ruido</b>). Dicho de otro modo, desde el punto de vista del teorema, las
+muestras discretas de una señal son valores exactos que aún no han sufrido
+redondeo o truncamiento alguno sobre una precisión determinada, es decir, aún
+no han sido cuantificadas.
+<p class="blue grande">Descripción matemática</p>
+El teorema demuestra que la <p class="green">reconstrucción exacta de una señal periódica
+continua en banda base a partir de sus muestras, es matemáticamente posible
+si la señal está limitada en banda y la tasa de muestreo es superior al
+doble de su ancho de banda</p>.
+Dicho de otro modo, la información completa de la señal analógica original
+que cumple el criterio anterior está descrita por la serie total de
+muestras que resultaron del proceso del muestreo. No hay nada, por tanto,
+de la evolución de la señal entre muestras que no esté perfectamente definido
+por la serie total de muestras.
+
+Si la frecuencia más alta contenida en una señal analógica $ x_a(t) $ es
+$ F_{max} = B $ y la señal se muestrea a una tasa $F_s &gt; 2 F_{max} = 2B $,
+entonces $x_a(t)$ se puede recuperar totalmente a partir de sus muestras
+mediante la siguiente función de interpolación:
+<img src="Nyquist.png"/>
+Hay que notar que el concepto de ancho de banda no necesariamente es
+sinónimo del valor de la frecuencia más alta en la señal de interés. A
+las señales para las cuales esto sí es cierto se les llama señales de
+banda base, y no todas las señales comparten tal característica ( por
+ejemplo, las ondas de radio en frecuencia modulada).
+Si el criterio no es satisfecho, existirán frecuencias cuyo muestreo
+coincide con otras (el llamado aliasing).
+<div class="cita"><b>Banda base</b>
+Se refiere a la banda de frecuencias producida por un transductor, tal como
+un micrófono, un manipulador telegráfico u otro dispositivo generador de
+señales que no es necesario adaptarlo al medio por el que se va a transmitir.
+<p class="red">Banda base es la señal de una sola transmisión en un canal, banda ancha
+significa que lleva más de una señal y cada una de ellas se transmite en
+diferentes canales, hasta su número máximo de canal.</p>
+En los sistemas de transmisión, la banda base es utilizada para modular una
+portadora. Durante el proceso de demodulación se reconstruye la señal banda
+base original. Por ello, podemos decir que la banda base describe el estado
+de la señal antes de lam modulación y de la multiplexación y después de la
+demultiplexación y demodulación.
+</div>
+<img src="Sinusoidal14700Hz.png"/>
+Ejemplo de reconstrucción de una señal de 14,7 kHz (línea gris discontinua)
+con sólo cinco muestras. Cada ciclo se compone de sólo 3 muestras a 44100
+muestras por segundo. La reconstrucción teórica resulta de la suma ponderada
+de la función de interpolación g(t) y sus versiones correspondientes
+desplazadas en el tiempo g(t-nT) con -inf &lt;  n &lt; inf, donde los coef.
+de ponderación son las muestras x(n). En esta imágen cada función de 
+interpolación está representada con un color (en total, cinco) y están
+ponderadas al valor de su correspondiente muestra (el máximo de cada función
+pasa por un punto azul que representa la muestra).
+<hr>
+<p class="blue grande">Ruido y fórmulas para los diferentes tipos de medios</p>
+<b>Notación</b>
+[bits/seg] = bps, [baudio] = símbolos/seg
+(S/N)[dB]: SNR[dB] = 10log 10 (SNR) (Para pasar de dB a SNR <a href="https://www.youtube.com/watch?v=dO--34iJeVQ">explicación</a>)
+
+<b>Shannon</b>: C[bits/seg] = B * log 2 (1+S/N)
+En la fórmula de Shannon, C es la velocidad (capacidad) máxima en bps
+B es el ancho de banda en Hz y S/N es la relación señal a ruido (signal/noise).
+<p class="green">Para cualquier sistema de transmisión con un determinado ancho de banda
+y con una relación dada de señal a ruido, limita la velocidad máxima en bps
+que se puede obtener,</p> <s>sea técnica de transmisión empleada</s>.
+<b>Nyquist</b>: C = 2B * log 2 (M) [bits/seg]
+C es la capacidad máxima en bps = tasa de datos máxima = velocidad máxima
+del canal = máxima capacidad de transmisión. B es el ancho de banda, y M
+es la cantidad de niveles.
+Ambas fórmulas están estrechamente relacionadas y partiendo de la máxima
+capacidad calculada por Shannon en base a la SNR del canal, podemos despejar
+el número de niveles necesario para lograr la máxima velocidad de transmisión.
+<p class="green">Siempre será la relación SNR indirectamente la que me limitará la cantidad
+de niveles paraque no se confundan la señal real con el ruido térmico, y así
+pueda regenerarse la señal correcta en el receptor</p>.
+<p class="small">C vale lo que calculamos anteriormente con la formula de <b>Shannon</b> y ahí podemos despejar M, 
+es decir que los niveles (M en la fórmula de Nyquist) están limitado por Shannon. Los niveles son como (0 y 1
+de forma un  gráfico cuadrado) que se utilizan para modular la señal senoidal o algo así para acordarme, si la
+potencia es más alta entonces la relación S/N es menor entonces se requiere más niveles para diferenciar los 0 y 1.</p>
+<p class="blue grande">¿Se puede aumentar la velocidad de un canal que
+opera en el límite de Nyquist aumentando los niveles de transmisión?
+¿Y lo mismo en Shannon?</p>
+No se puede aumentar la velocidad de un canal que opera en el límite de
+Nyquist pues no podemos aumentar los niveles de transmisión sin que se
+pierda información, porque la señal se empezará a confundir con el ruido.
+En cambio en Shannon, si aumentamos primero la potencia (es decir el
+cociente señal-ruido) y luego sí aumentalos los niveles, en este caso no
+habría problema.
+<p class="blue grande">Se quiere aumentar la velocidad en un enlace que
+ya opera al límite de velocidad establecido por Shannon. Que parámetros
+se debe modificar</p>
+<b>a.</b> Aumentar la potencia.
+<b>b.</b> Aumentar la cantidad de bits por símbolo (niveles.
+<b>c.</b> Aumentar la velocidad de transmisión de símbolos.
+<b>d.</b> Disminuir la potencia.
+<b>e.</b> Disminuir la cantidad de bits por símbolo.
+<b>f.</b> Disminuir la velocidad de transmisión de símbolos.
+<b>g.</b> La opción a combinada con la opción b.
+<b>h.</b> La opción a con la b y la c.
+<b>i.</b> La opción b con la c. 
+
+Y existían varias combinaciones más pero la <p class="green">correcta era la g</p>.
+<p class="red">Cualquier otra respuesta estaba mal</p>.
+<p class="blue grande">Por qué si los protocolos MAC alcanzan el 95% de uso del ancho de banda
+del canal, se prefirió utilizar paso de testigo para aplicaciones en tiempo real?</p>
+Porque el uso del token evita las colisiones, y se mejoraría la velocidad
+de transmisión del canal, necesaria para comunicaciones en tiempo real.
+<p class="blue grande">Describa las funciones de un puente, hub, switch, indicando en que
+capa del modelo OSI opera cada uno. Exoplique en detalle todo lo que pasa 
+en los siguientes casos, donde se supone que la condición inicial es un switch que 
+recién se enciende y que se utiliza un protocolo que no requiere el uso 
+de ARP. Suponga que los eventos se suceden uno a continuación del otro y sin volver 
+a condiciones iniciales.</p>
+<b>a.</b> A envía una trama a B.
+<b>b.</b> C envía una trama en difusión.
+<b>c.</b> D envía una trama a B.
+
+
+
+
+<p class="blue grande"></p>
+<p class="blue grande"></p>
+<p class="blue grande"></p>
+<p class="blue grande"></p>
+<p class="blue grande"></p>
+<p class="blue grande"></p>
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+<footer>* Lo que se encuentra entre líneas rojas no pertenece a las respuestas originales que están en el PDF de referencia.</footer>
+</html>
