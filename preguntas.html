@@ -100,6 +100,9 @@ los medios de la red. Son funciones de esta capa: la asignación de dirreciones
 IP a las direcciones físicas, el encapsulamiento de los paqutes IP en tramas.
 Basándose en el tipo de hardware y la interfaz de la red, la capa de acceso de
 red definirá la conexión con los medios físicos de la misma.
+...
+...
+(COMPLETAR)
 </div>
 <hr>
 <p class="blue grande">Teorema de muestreo de Nyquist-Shannon</p>
@@ -218,7 +221,7 @@ del canal, se prefirió utilizar paso de testigo para aplicaciones en tiempo rea
 Porque el uso del token evita las colisiones, y se mejoraría la velocidad
 de transmisión del canal, necesaria para comunicaciones en tiempo real.
 <p class="blue grande">Describa las funciones de un puente, hub, switch, indicando en que
-capa del modelo OSI opera cada uno. Exoplique en detalle todo lo que pasa 
+capa del modelo OSI opera cada uno. Explique en detalle todo lo que pasa 
 en los siguientes casos, donde se supone que la condición inicial es un switch que 
 recién se enciende y que se utiliza un protocolo que no requiere el uso 
 de ARP. Suponga que los eventos se suceden uno a continuación del otro y sin volver 
@@ -227,16 +230,56 @@ a condiciones iniciales.</p>
 <b>b.</b> C envía una trama en difusión.
 <b>c.</b> D envía una trama a B.
 
+Cuando A envía una trama a B, como el switch recién se enciende todavía no
+sabe en que puerto está conectado B, en consecuencia, la trama que envía A
+se enviará a todos los puertos. Solo B responderá y los demás descartarán la
+trama. Cuando C envía una trama en difusión, todos los puertos la reciben y
+consumen, ya que va dirigida a todos ellos. Cuando D envía una trama a B,
+el switch ya posee en su memoria la dirección de B por (a), por lo tanto sólo 
+bastaría con enviar el paquete por el puerto donde sabe que está conectado B.
 
+El <p class="green"><b>switch</b></p> es un dispositivo de capa de enlace, permite la
+interconexión de hosts (tal como el hub) pero sin dividir el ancho de banda del
+canal, ya que tiene un panel trasero de alta velocidad que direcciona las
+tramas. <p class="green">Además, las tramas recibidas por una interfaz no se replican en todas
+las demás, sino que se envían por la interfaz adecuada para arribar al destino
+(si se conoce). De esta forma, los dominios de colisión son independientes entre
+puertos</p> (no como en el hub, que se comparte entre todos) y se puede logran una
+mayoureficiencia de la capacidad del canal (teóricamente, no dividiéndose entre
+los puertos).
 
+Básicamente, el <p class="green"><b>puente</b></p> permite conectar redes LAN
+heterogéneas, adaptando las tramas enviadas por las mismas, aunque también
+tiene <p class="green">las funcionalidades del switch (incluso léxicamente en Ethernet
+puentes y switches pueden ser considerados el mismo dispositivo)</p>. Es un
+dispositivo que trabaja adaptando las tramas Ethernet de redes heterogéneas
+en la subcapa LLC de la capa de enlace (capa 2).
 
-<p class="blue grande"></p>
-<p class="blue grande"></p>
-<p class="blue grande"></p>
-<p class="blue grande"></p>
-<p class="blue grande"></p>
-<p class="blue grande"></p>
-
+El <p class="green"><b>hub</b></p> es un dispotivo de la capa física que simplemente
+interconecta interfaces de red, físicamente es como si estuvieran "soldados"
+las diferentes conexiones a sus puertos. <p class="green">Cualquier trama que reciba por
+uno de sus puertos se recplica a todos los demás, por lo que podría considerarse
+simplemente un divisor/replicador de señal</p>. Al compartir todos los puertos el
+canal, es muy propenso a generar colisiones y errores de transmisión, por lo
+que <p class="red">debe utilizarse con protocolos CSMA/CD</p>. La capacidad del canal se divide
+proporcionalmente entre los host, a mayour hosts, más lenta será la red. Labura
+a nivel de capa física.
+<p class="blue grande">Preguntas varias</p>
+<b>a. </b>Se quiere conectar una 10baseT y una 100baseT, que dispositivos
+utilizamos y en que capa opera (suponer que tienen la misma MTU).
+<i>Usaría un switch que opera en la capa de enlace.</i>
+<b>b. </b>Cambiaría la repuesta de a. si se usan MTU distintas?
+<i>Sí, debería usar un router. Estos al operar en capa de red, pueden lidiar con
+los problemas de fragmentación de paquetes (necesaria debido a los distintos
+MTU) haciendo que el datagrama se ajuste a la máxima unidad de transferencia de
+la red.</i>
+<b>c. </b>Misma pregunta que a. pero con una 10baseT y un Token Ring.
+<i>Usaría un puente. Porque me permite conectar redes heterogéneas. Comparte las
+características del switch.</i>
+<b>d. </b>2 ventajas de UTP cat 6 frente a la fibra óptica en interiores.
+<i>Es más fácil de instalar, menor costo de instalación, menos sensible
+a las roturas.</i>
+<b></b>
 
 
 
